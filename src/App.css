@@ -3,3 +3,10 @@
  height:100%;
 position:relative;
 }
+.main_wrapper{
+    position:relative;
+    left:303px;
+    top:0px;
+    width:1300px;
+    height:95vh;
+}
