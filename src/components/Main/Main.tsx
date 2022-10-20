@@ -1,59 +1,110 @@
 import { observer } from 'mobx-react-lite';
-import React, { DetailedHTMLProps, HTMLAttributes, MouseEventHandler, useContext, useState } from 'react';
+import React, {
+    DetailedHTMLProps,
+    HTMLAttributes,
+    MouseEventHandler,
+    useContext,
+    useState,
+} from 'react';
 import { Context } from '../..';
-import { editRow } from './Functions/EditRow';
-import { saveRow } from './Functions/SaveRow';
+// import { editRow } from './Functions/EditRow';
+// import { saveRow } from './Functions/SaveRow';
 import m from './Main.module.scss';
+import main from '../../api/main.json';
 
-export interface NewRowData {
-    title: string; // Наименование работ
-    unit: string; // Ед. изм.
-    quantity: number; // Количество
-    unitPrice: number; // Цена за ед.
-    price: number; // Стоимость
 
-    parent: number | null; // id уровня, в котором находится (либо null для первого уровня)
-    // type: 'level' | 'row'
-}
 
-export interface RowData extends NewRowData {
-    id: number;
-}
 const Main = observer(() => {
-    const { mainStore } = useContext(Context);
+    const { row } = useContext(Context);
 
-    const editHandler = (event: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
-        editRow(mainStore, []);
-    };
-    saveRow(mainStore, []);
+    // row.saveRow()
 
- const [input, setInput] = useState(false)
+// const rowData = [mainStore]
+// const rowData2 = [mainStore]
+// const inputHandler = (e:any) =>{
+//     mainStore.setParent(e.target.value)
+//     editRow(mainStore, rowData2)
+// }
+// const inputHandlerTitle = (e:any) =>{
+//     mainStore.setTitle(e.target.value)
+//     editRow(mainStore, rowData2)
+// }
 
- const inputHandler = () => {
-    setInput(true)
- }
- const changeRow = (e: React.ChangeEvent<HTMLInputElement>) =>{
-    mainStore.setParent(e.target.value)
+// const save = () =>{
+//     saveRow(mainStore, rowData2)
+// }
+// // save()
 
- }
- const sendRow = () => {
-    setInput(false)
- }
- const onMainClick = (e:any) =>{
-     e.stopPropagation()
-    setInput(false)
- }
+// console.log(rowData2)
+// console.log(mainStore)
+
+    //     const editHandler = (event: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
+    //         editRow(mainStore, []);
+    //     };
+    //     saveRow(mainStore, [ ]);
+    // const mainStoreArray = [mainStore.id, mainStore.parent, mainStore.price, mainStore.quantity, mainStore.title, mainStore.type, mainStore.unit, mainStore.unitPrice]
+
+    //  const [input, setInput] = useState(false)
+    // console.log(mainStore.id)
+    //  const inputHandler = () => {
+    //     setInput(true)
+    //  }
+    //  const changeRow = (e: React.ChangeEvent<HTMLInputElement>) =>{
+    //     mainStore.setParent(e.target.value)
+    // }
+
+    //  const sendRow = () => {
+    //     setInput(false)
+    //  }
+    //  const onMainClick = (e:any) =>{
+    //      e.stopPropagation()
+    //     setInput(false)
+    //  }
+    const inputHandler = (e: any) =>{
+        row.newRow.unit = e.target.value
+    }
+    const save = () =>{
+        row.saveRow()
+    }
+    // console.log(row.myRow)
+    console.log(row.newRow)
+    console.log(row.newRow.unit)
+    console.log(row.row)
     return (
         <div className={m.main}>
-            <div className={m.level} onClick={inputHandler}>
+            <div className={m.level}>
+                <p>Уровень</p>
+                <div>
+                    <form action="" onSubmit={save}> 
+                    <input placeholder='New element' value={row.newRow.unit} onChange={inputHandler}/>{' '}
+                   
+                    </form>
+                    
+                </div>  
+                <div></div>
+            </div>
+            {/* <div className={m.level}>
+                <p>Уровень</p>
+                <div>
+                    <form action="" onSubmit={save}> 
+                    <input placeholder='New element' value={mainStore.parent} onChange={inputHandler}/>{' '}
+                    </form>
+                </div>  
+                <div>{rowData2.map(data => data.parent)}</div>
+            </div> */}
+            {/* <div className={m.level} onClick={inputHandler}>
                 <p>Уровень</p> 
+                <form action="submit">
                 {input === true ?  <div><input placeholder='New element' value={mainStore.parent} onChange={changeRow} onSubmit={sendRow}/> <p className={m.close} onClick={onMainClick}>X</p></div>: mainStore.parent }
-                
-            </div>
-            <div className={m.title}>
+                </form>
+            </div> */}
+            {/* <div className={m.title}>
                 <p>Наименование работ</p>
-                {mainStore.title}
-            </div>
+                <form action="" onSubmit={save}> 
+                    <input placeholder='New element' value={mainStore.title} onChange={inputHandlerTitle}/>{' '}
+                    </form>
+                    <div>{rowData2.map(data => data.title)}</div>
+            </div> 
             <div className={m.unit}>
                 <p>Ед.измерения</p>
                 {mainStore.unit}
@@ -69,8 +120,8 @@ const Main = observer(() => {
             <div className={m.price}>
                 <p>Стоимость</p>
                 {mainStore.price}
-            </div>
-            </div>
+            </div> */}
+        </div>
     );
 });
 

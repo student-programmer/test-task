@@ -7,7 +7,7 @@ const Projects = () => {
 	return (
 		<div className={p.wrapper}>
 			{projects.map(project => (
-				<ProjectsModule name={project.name} id={project.id} />
+				<ProjectsModule key={project.id} name={project.name} id={project.id} />
 			))}
 		</div>
 	);
