@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, makeObservable } from "mobx";
 
 export interface NewRowData {
     title: string; // Наименование работ
@@ -8,6 +8,13 @@ export interface NewRowData {
     price: number; // Стоимость
     parent: number | null; // id уровня, в котором находится (либо null для первого уровня)
     // type: 'level' | 'row'
+}
+export interface Rows {
+	id: number;
+	title: string; // Наименование работ
+	unit: string;
+	quantity: number;
+	unitPrice: number;
 }
 
 export interface RowData extends NewRowData {
@@ -77,20 +84,26 @@ export const recalculation = (parentID: number | null, storage: RowData[]) => {
 
 
 export default class Row {
-    row: RowData[] = [];
-    newRow: NewRowData = {title: '', unit: '', quantity: 0,  unitPrice: 0, price: 0, parent: 0};
-    myRow: RowData = {id: 0, title: '', unit: '', quantity: 0,  unitPrice: 0, price: 0, parent: 0 }
+	titleRows: Rows[] = [];
 
-    constructor(){
-        makeAutoObservable(this)
-    }
+	constructor() {
+		makeAutoObservable(this);
+	}
 
-    saveRow(){
-         saveRow(this.newRow, this.row)
-    }
-
-    // saveRow(rowData: NewRowData, storage: RowData[], justRow: RowData){
-    //      saveRow(this.newRow, this.row)
-    // }
-
+	// saveRow(){
+	//      saveRow()
+	// }
+	addRow(title: string, unit: string, quantity: number, unitPrice: number) {
+		const rows: Rows = {
+			id: +Math.random().toFixed(4),
+			title,
+			unit,
+            quantity,
+            unitPrice
+		};
+		this.titleRows.push(rows);
+	}
+	// saveRow(rowData: NewRowData, storage: RowData[], justRow: RowData){
+	//      saveRow(this.newRow, this.row)
+	// }
 }
